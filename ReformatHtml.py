@@ -17,8 +17,14 @@ class ReformatHtmlCommand(sublime_plugin.TextCommand):
 		#replace all >< with >\n<
 		contents = re.sub("><", ">\n<", contents)
 
-		#strip out whitespace at beginning of each line
-		contents = re.sub("", "", contents)
+		#strip out whitespace at beginning and end of each line
+		contents = re.sub("^[ \s]+|[ \s]+$", "", contents)
+
+		#reindent
+		# 1. select all text
+		# 2. set text to html
+		# self.view.run_command("reindent")
+		# taken from: {"keys": ["ctrl+shift+r"], "command": "reindent" , "args": {"single_line": false}}
 
 		# replace the code in Sublime Text
 		self.view.replace(edit, region, contents)
