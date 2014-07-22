@@ -5,14 +5,13 @@ class ReformatHtmlCommand(sublime_plugin.TextCommand):
 		if self.view.sel()[0].empty():
 			# nothing selected, so process the entire file
 			region = sublime.Region(0, self.view.size())
+			self.view.sel().add(region)
 			sublime.status_message('Reformatting the entire file')
-			contents = self.view.substr(region)
-
 		else:
-			# process the selection only
-			region = self.view.line(self.view.sel()[0])
 			sublime.status_message('Reformatting current selection')
-			contents = self.view.substr(self.view.sel()[0])
+		
+		region = self.view.line(self.view.sel()[0])
+		contents = self.view.substr(self.view.sel()[0])
 
 		#replace all >< with >\n<
 		contents = re.sub("><", ">\n<", contents)
@@ -21,11 +20,8 @@ class ReformatHtmlCommand(sublime_plugin.TextCommand):
 		contents = re.sub("\n[\s]+", "\n", contents)
 		contents = re.sub("[\s]+\n", "\n", contents)
 
-		#reindent
-		# 1. select all text
-		# 2. set text to html
-		# self.view.run_command("reindent")
-		# taken from: {"keys": ["ctrl+shift+r"], "command": "reindent" , "args": {"single_line": false}}
-
-		# replace the code in Sublime Text
+		# update the buffer
 		self.view.replace(edit, region, contents)
+
+		#reindent, using preexisting sublime command "reindent"
+		self.view.run_command("reindent")
