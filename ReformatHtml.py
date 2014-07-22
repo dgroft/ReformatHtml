@@ -14,7 +14,7 @@ class ReformatHtmlCommand(sublime_plugin.TextCommand):
 		contents = self.view.substr(self.view.sel()[0])
 
 		#replace all >< with >\n<
-		contents = re.sub("><", ">\n<", contents)
+		contents = re.sub(">[\s]+<", ">\n<", contents)
 
 		#strip out whitespace at beginning and end of each line
 		contents = re.sub("\n[\s]+", "\n", contents)
