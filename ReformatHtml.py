@@ -18,7 +18,8 @@ class ReformatHtmlCommand(sublime_plugin.TextCommand):
 		contents = re.sub("><", ">\n<", contents)
 
 		#strip out whitespace at beginning and end of each line
-		contents = re.sub("^[ \s]+|[ \s]+$", "", contents)
+		contents = re.sub("\n[\s]+", "\n", contents)
+		contents = re.sub("[\s]+\n", "\n", contents)
 
 		#reindent
 		# 1. select all text
