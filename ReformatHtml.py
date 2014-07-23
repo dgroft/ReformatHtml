@@ -6,15 +6,15 @@ class ReformatHtmlCommand(sublime_plugin.TextCommand):
 			# nothing selected, so process the entire file
 			region = sublime.Region(0, self.view.size())
 			self.view.sel().add(region)
-			sublime.status_message('Reformatting the entire file')
+			sublime.status_message("Reformatting the entire file")
 		else:
-			sublime.status_message('Reformatting current selection')
+			sublime.status_message("Reformatting current selection")
 		
 		region = self.view.line(self.view.sel()[0])
 		contents = self.view.substr(self.view.sel()[0])
 
-		#replace all > < with >\n<
-		contents = re.sub(">[\s]+<", ">\n<", contents)
+		#replace all >< with >\n<
+		contents = re.sub(">[\s]*<", ">\n<", contents)
 
 		#strip out whitespace at beginning and end of each line
 		contents = re.sub("\n[\s]+", "\n", contents)
@@ -25,3 +25,5 @@ class ReformatHtmlCommand(sublime_plugin.TextCommand):
 
 		#reindent, using preexisting sublime command "reindent"
 		self.view.run_command("reindent")
+
+		sublime.status_message("Finished reformatting.")
