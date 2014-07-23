@@ -23,6 +23,9 @@ class ReformatHtmlCommand(sublime_plugin.TextCommand):
 		# update the buffer
 		self.view.replace(edit, region, contents)
 
+		# set file type to HTML
+		self.view.run_command("set_file_type", {"syntax": "Packages/HTML/HTML.tmLanguage"})
+
 		#reindent, using preexisting sublime command "reindent"
 		self.view.run_command("reindent")
 
